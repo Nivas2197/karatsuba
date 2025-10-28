@@ -1,41 +1,77 @@
-def karatsuba(x, y):
-    """
-    Perform multiplication of two integers using Karatsuba algorithm.
+import cmath
+def fft(x):
+    N = len(x)
+    if N <= 1:
+        return x
+    even = fft(x[0::2])
+    odd = fft(x[1::2])
+    X = [0]*N
+    for k in range(N//2):
+        factor = cmath.exp(-2j * cmath.pi * k / N) * odd[k]
+        X[k] = even[k] + factor
+        X[k + N//2] = even[k] - factor
+    return X
 
-    Args:
-    x, y : int
-        Numbers to multiply.
+def ifft(X):a
+    N = len(X)
+    X_conj = [x.conjugate() for x in X]
+    x_time = fft(X_conj)
+    return [x.conjugate()/N for x in x_time]
 
-    Returns:
-    int
-        Product of x and y.
-    """
-    # Base case for small numbers
-    if x < 10 or y < 10:
-        return x * y
+def multiply_numbers(a, b):
+    try:
+        A = list(map(int, str(a)))
+        B = list(map(int, str(b)))
+    except Exception:
+        print("Please enter only integers!")
+        return None
 
-    # Calculate the number of digits of the largest number
-    n = max(len(str(x)), len(str(y)))
-    m = n // 2
+    A = A[::-1]
+    B = B[::-1]
 
-    # Split the numbers
-    high1, low1 = divmod(x, 10**m)
-    high2, low2 = divmod(y, 10**m)
+    n = 1
+    while n < len(A) + len(B):
+        n *= 2
 
-    # Recursive calls
-    z0 = karatsuba(low1, low2)
-    z1 = karatsuba(low1 + high1, low2 + high2)
-    z2 = karatsuba(high1, high2)
+    A += [0] * (n - len(A))
+    B += [0] * (n - len(B))
 
-    # Combine the results
-    return (z2 * 10**(2*m)) + ((z1 - z2 - z0) * 10**m) + z0
+    FA = fft([complex(d) for d in A])
+    FB = fft([complex(d) for d in B])
 
+    FC = [FA[i] * FB[i] for i in range(n)]
 
-# -------------------------
-# Example Usage
-# -------------------------
-if __name__ == "__main__":
-    a = 1234
-    b = 5678
-    product = karatsuba(a, b)
-    print(f"{a} * {b} = {product}")
+    C = ifft(FC)
+    C = [int(round(c.real)) for c in C]
+
+    for i in range(len(C)):
+        if C[i] >= 10:
+            if i + 1 >= len(C):
+                C.append(0)
+            C[i+1] += C[i] // 10
+            C[i] %= 10
+
+    while len(C) > 1 and C[-1] == 0:
+        C.pop()
+
+    return int(''.join(map(str, C[::-1])))
+test_cases = [
+    (12, 34),
+    (123, 456),
+    (99999, 99999),
+    (1000, 1000),
+    (0, 98765),
+    ('abc', 123),
+    (456, None),
+    ('', 789),
+    (3.14, 2),
+    ([1, 2, 3], 456),
+]
+
+print("------ Running Test Cases ------")
+for i, (a, b) in enumerate(test_cases, 1):
+    print(f"Test Case {i}: a = {a}, b = {b}")
+    result = multiply_numbers(a, b)
+    if result is not None:
+        print(f"Result: {result}")
+    print()
