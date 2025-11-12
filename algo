@@ -1,0 +1,246 @@
+Divide each number into two halves, the high bits 
+H
+H and the low bits 
+L
+:
+L:
+
+x
+=
+x
+H
+b
+n
+2
++
+X
+L
+,
+y
+=
+y
+H
+b
+n
+2
++
+Y
+L
+.
+x=x 
+H
+​
+ b 
+2
+n
+​
+ 
+ +X 
+L
+​
+ ,y=y 
+H
+​
+ b 
+2
+n
+​
+ 
+ +Y 
+L
+​
+ .
+
+Multiply the two numbers together:
+
+x
+y
+=
+(
+x
+H
+b
+n
+2
++
+X
+L
+)
+×
+(
+y
+H
+b
+n
+2
++
+Y
+L
+)
+=
+x
+H
+y
+H
+b
+n
++
+(
+x
+H
+y
+L
++
+x
+L
+y
+H
+)
+b
+n
+2
++
+x
+L
+y
+L
+.
+xy
+​
+  
+=(x 
+H
+​
+ b 
+2
+n
+​
+ 
+ +X 
+L
+​
+ )×(y 
+H
+​
+ b 
+2
+n
+​
+ 
+ +Y 
+L
+​
+ )
+=x 
+H
+​
+ y 
+H
+​
+ b 
+n
+ +(x 
+H
+​
+ y 
+L
+​
+ +x 
+L
+​
+ y 
+H
+​
+ )b 
+2
+n
+​
+ 
+ +x 
+L
+​
+ y 
+L
+​
+ .
+​
+ 
+
+These formulas describe what is going on in the image above--the familiar grade-school way of multiplying numbers. This has four multiplications: 
+x
+H
+y
+H
+b
+n
+x 
+H
+​
+ y 
+H
+​
+ b 
+n
+ , 
+(
+x
+H
+y
+L
+)
+b
+n
+2
+(x 
+H
+​
+ y 
+L
+​
+ )b 
+2
+n
+​
+ 
+ , 
+(
+x
+L
+y
+H
+)
+b
+n
+2
+(x 
+L
+​
+ y 
+H
+​
+ )b 
+2
+n
+​
+ 
+ , and 
+x
+L
+y
+L
+,
+x 
+L
+​
+ y 
+L
+​
+ , which has a running time of 
+O
+(
+n
+2
+)
+O(n 
+2
+ )
